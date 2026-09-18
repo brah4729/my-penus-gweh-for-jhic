@@ -4,4 +4,24 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "accelerate>=1.15.0",
+    "bitsandbytes>=0.50.2",
+    "datasets>=5.0.1",
+    "matplotlib>=3.11.2",
+    "numpy>=2.4.6",
+    "pandas>=3.0.6",
+    "peft>=0.21.0",
+    "requests>=2.34.2",
+    "torch>=2.14.0",
+    "transformers>=5.17.0",
+    "trl>=1.13.0",
+    "unsloth>=2024.8",
+    "wandb>=0.30.0",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "ruff>=0.16.8",
+]
