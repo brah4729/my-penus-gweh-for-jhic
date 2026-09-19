@@ -1,0 +1,178 @@
+[
+  {
+    "id": 12,
+    "name": "Badminton",
+    "description": "<p>Badminton adalah kegiatan ekstrakurikuler olahraga yang bertujuan untuk mengembangkan kemampuan bermain bulu tangkis. Kegiatannya meliputi latihan teknik, strategi permainan, serta meningkatkan kebugaran fisik, sekaligus menumbuhkan sportivitas dan semangat kompetitif.</p>",
+    "image": "uploads/eskul/1770191042_badminton-concept-with-shuttlecock-racket_23-2149940859.jpg.avif",
+    "pembina_id": 29,
+    "Pembina": {
+      "id": 29,
+      "full_name": "Jeni Yanto"
+    }
+  },
+  {
+    "id": 13,
+    "name": "Pencak Silat",
+    "description": "<p>Pencak Silat adalah kegiatan ekstrakurikuler seni bela diri tradisional Indonesia yang bertujuan untuk melatih keterampilan bertahan diri, kedisiplinan, serta kekuatan fisik dan mental. Kegiatannya meliputi latihan teknik dasar, jurus, serta pembinaan karakter seperti keberanian, tanggung jawab, dan sportivitas.</p>",
+    "image": "uploads/eskul/1770191107_ilustrasi-vektor-pencak-silat_762689-210.jpg.avif",
+    "pembina_id": 30,
+    "Pembina": {
+      "id": 30,
+      "full_name": "Almudy Rachmad"
+    }
+  },
+  {
+    "id": 16,
+    "name": "English Club",
+    "description": "<p>English Club adalah wadah bagi siswa untuk belajar dan mengembangkan kemampuan bahasa Inggris secara aktif dan menyenangkan. Kegiatan dalam klub ini meliputi latihan berbicara, diskusi, permainan, serta berbagai aktivitas kreatif yang membantu meningkatkan kepercayaan diri dan keterampilan berkomunikasi dalam bahasa Inggris.</p>",
+    "image": "uploads/eskul/1775458968_english language logo - Google Search.jpg",
+    "pembina_id": 32,
+    "Pembina": {
+      "id": 32,
+      "full_name": "Karti Suminar, M.Pd"
+    }
+  },
+  {
+    "id": 17,
+    "name": "PMR (Palang Merah Remaja)",
+    "description": "<p>PMR (Palang Merah Remaja) adalah kegiatan ekstrakurikuler yang bertujuan membentuk siswa yang peduli, disiplin, dan siap membantu sesama. Di PMR, anggota belajar tentang pertolongan pertama, kesehatan, kepedulian sosial, serta kesiapsiagaan dalam menghadapi bencana. Selain menambah pengetahuan, PMR juga melatih kerja sama, tanggung jawab, dan jiwa kemanusiaan.</p>",
+    "image": "uploads/eskul/1775459534_pmr.jpg",
+    "pembina_id": 31,
+    "Pembina": {
+      "id": 31,
+      "full_name": "Raden Dodi Setiadi, S.Pd.I"
+    }
+  },
+  {
+    "id": 18,
+    "name": "Pramuka Khusus",
+    "description": "<p>Pramuka adalah kegiatan ekstrakurikuler yang melatih kemandirian, kedisiplinan, dan kerja sama. Melalui berbagai aktivitas seperti berkemah, keterampilan tali-temali, dan penjelajahan, siswa diajarkan untuk menjadi pribadi yang tangguh, bertanggung jawab, serta memiliki jiwa kepemimpinan dan cinta alam.</p>",
+    "image": "uploads/eskul/1775459823_pramuka.png",
+    "pembina_id": 31,
+    "Pembina": {
+      "id": 31,
+      "full_name": "Raden Dodi Setiadi, S.Pd.I"
+    }
+  },
+  {
+    "id": 19,
+    "name": "Paduan Suara",
+    "description": "<p><span style=\"background-color: rgb(16, 18, 24); color: rgb(230, 232, 240);\">Ekstrakurikuler Paduan Suara merupakan wadah bagi siswa-siswi yang memiliki minat dan bakat di bidang seni vokal.</span></p>",
+    "image": "uploads/eskul/1775460167_WhatsApp Image 2026-04-06 at 14.20.58.jpeg",
+    "pembina_id": 33,
+    "Pembina": {
+      "id": 33,
+      "full_name": "Rohajon, S.T"
+    }
+  },
+  {
+    "id": 20,
+    "name": "Rohis",
+    "description": "<p>Rohis (Rohani Islam) adalah organisasi siswa yang menjadi wadah untuk memperdalam ilmu agama Islam serta membentuk karakter yang berakhlak baik. Kegiatannya meliputi kajian keislaman, tadarus Al-Qur’an, dakwah, dan berbagai aktivitas positif yang mendukung peningkatan iman dan takwa.</p>",
+    "image": "uploads/eskul/1775461169_download (1).jpg",
+    "pembina_id": 34,
+    "Pembina": {
+      "id": 34,
+      "full_name": "Hanifan Nurfauzi, M. Ag"
+    }
+  },
+  {
+    "id": 21,
+    "name": "Futsal",
+    "description": "<p>Futsal adalah kegiatan ekstrakurikuler olahraga yang bertujuan untuk mengembangkan kemampuan bermain sepak bola dalam versi lapangan kecil. Selain melatih teknik dan strategi, futsal juga menumbuhkan kerja sama tim, sportivitas, serta menjaga kebugaran dan kesehatan tubuh.</p>",
+    "image": "uploads/eskul/1775460711_Veja aqui 3 Dicas de Como Jogar Bem Futsal_ Dicas simples e objetiva para você melhorar o seu nível jogando Futsal_.jpg",
+    "pembina_id": 39,
+    "Pembina": {
+      "id": 39,
+      "full_name": "Wenza, S.Pd"
+    }
+  },
+  {
+    "id": 22,
+    "name": "Rohani Kristen",
+    "description": "<p>Wadah siswa-siswi Kristen untuk bertumbuh bersama dalam iman, kasih, dan karakter yang luhur melalui persekutuan yang hangat. Melalui doa, renungan, dan pelayanan musik, kami membangun harmoni persaudaraan yang menyejukkan di lingkungan sekolah.</p>",
+    "image": "uploads/eskul/1775461091_download.jpg",
+    "pembina_id": 43,
+    "Pembina": {
+      "id": 43,
+      "full_name": "Markus Pianggigil"
+    }
+  },
+  {
+    "id": 24,
+    "name": "Paskibra",
+    "description": "<p>Paskibra (Pasukan Pengibar Bendera) adalah ekstrakurikuler yang melatih kedisiplinan, kekompakan, dan tanggung jawab. Dalam kegiatan ini, siswa belajar baris-berbaris, kepemimpinan, serta semangat nasionalisme untuk menjadi pribadi yang tegas, tangguh, dan berjiwa patriotik.</p><p><br></p>",
+    "image": "uploads/eskul/1775461180_paskibra.jpg",
+    "pembina_id": 37,
+    "Pembina": {
+      "id": 37,
+      "full_name": "Rully Azhari, M.Pd"
+    }
+  },
+  {
+    "id": 25,
+    "name": "Taekwondo",
+    "description": "<p>Wadah pengembangan diri melalui seni bela diri yang melatih kekuatan fisik, disiplin mental, dan pertahanan diri yang tangguh<span style=\"background-color: rgb(16, 18, 24); color: rgb(230, 232, 240);\">.</span></p>",
+    "image": "uploads/eskul/1775461373_download.png",
+    "pembina_id": 47,
+    "Pembina": {
+      "id": 47,
+      "full_name": "Randy Budi Nugroho"
+    }
+  },
+  {
+    "id": 27,
+    "name": "Elektro",
+    "description": "<p>Elektro adalah kegiatan ekstrakurikuler yang berfokus pada pembelajaran dan pengembangan keterampilan di bidang kelistrikan dan elektronika. Kegiatannya meliputi perakitan rangkaian, praktik alat elektronik, serta pemahaman dasar listrik yang melatih ketelitian, logika, dan kreativitas siswa.</p>",
+    "image": "uploads/eskul/1775461598_Tech Robot Hand Business Banner, Technology, Science Fiction, Robot Background Image And Wallpaper for Free Download.jpg",
+    "pembina_id": 49,
+    "Pembina": {
+      "id": 49,
+      "full_name": "Aditya Faiztanta Ramadhan"
+    }
+  },
+  {
+    "id": 28,
+    "name": "Accounting Club",
+    "description": "<p><span style=\"background-color: rgb(16, 18, 24); color: rgb(230, 232, 240);\">Tempat seru untuk mengasah logika keuangan, ketelitian, dan kemampuan analisis laporan bisnis secara mendalam. Kami belajar mengelola finansial dengan cerdas, mulai dari dasar akuntansi hingga simulasi olimpiade yang kompetitif.</span></p>",
+    "image": "uploads/eskul/1775461646_a05acb6b5994eb9e073425d0d2eea088.jpg",
+    "pembina_id": 48,
+    "Pembina": {
+      "id": 48,
+      "full_name": "Muzakir Zulkarnaen, S.Ak"
+    }
+  },
+  {
+    "id": 30,
+    "name": "Basket",
+    "description": "<p>Mengasah keterampilan teknik basket, koordinasi fisik, dan strategi permainan yang dinamis di lapangan. Kami menjunjung tinggi semangat sportivitas, ketangguhan mental, dan kerja sama tim untuk meraih prestasi terbaik.</p>",
+    "image": "uploads/eskul/1775461762_4d85f3f46ef0c16c5ac88c08dfd5b032.jpg",
+    "pembina_id": 53,
+    "Pembina": {
+      "id": 53,
+      "full_name": "Anas"
+    }
+  },
+  {
+    "id": 33,
+    "name": "Programming",
+    "description": "<p>Programming adalah kegiatan ekstrakurikuler yang berfokus pada pembelajaran dasar hingga lanjutan dalam dunia pemrograman. Kegiatannya meliputi pembuatan aplikasi, website, serta pemecahan masalah menggunakan logika coding, sehingga melatih kemampuan berpikir kritis, kreatif, dan sistematis.</p>",
+    "image": "uploads/eskul/1775461981_download (2).jpg",
+    "pembina_id": 45,
+    "Pembina": {
+      "id": 45,
+      "full_name": "Dimas Maulana Ishaq, S.Kom"
+    }
+  },
+  {
+    "id": 34,
+    "name": "Game Development",
+    "description": "<p>Game development adalah kegiatan ekstrakurikuler yang bertujuan untuk melatih keterampilan berpikir logis, kreativitas, dan kemampuan teknologi siswa melalui proses pembuatan game. Kegiatannya meliputi pembelajaran dasar pemrograman, desain karakter dan level, serta pembinaan karakter seperti kerja sama tim, ketekunan, dan kemampuan memecahkan masalah.</p>",
+    "image": "uploads/eskul/1784337523_360_F_229737620_zLYh8twC5b8GIY3k1YetOtFMlVSC9opz.webp",
+    "pembina_id": 15,
+    "Pembina": {
+      "id": 15,
+      "full_name": "Septianto Raharso, S.Kom, M.Pd"
+    }
+  }
+]

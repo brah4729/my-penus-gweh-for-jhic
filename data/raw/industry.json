@@ -1,0 +1,914 @@
+[
+  {
+    "id": 1,
+    "name": "PT Indomaret",
+    "logo": "uploads/industry/1760897439_indomaret-logo-png_seeklogo-339890.png",
+    "website": "www.indomaret.co.id",
+    "description": "<p>Sekolah kami menjalin <strong>kemitraan industri</strong> dengan <strong>Indomaret</strong> untuk pengembangan keahlian siswa.</p>",
+    "created_at": "2025-10-17T12:26:53.655Z"
+  },
+  {
+    "id": 3,
+    "name": "PT Telkom",
+    "logo": "uploads/industry/1760874427_1594112895830_compress_PNG Icon Telkom.png",
+    "website": "https://www.telkom.co.id/sites",
+    "description": "<p>Sejak awal berdiri, Telkom Indonesia berkomitmen kuat untuk membangun infrastruktur telekomunikasi dan informasi serta dunia digital Indonesia. Berikut adalah tonggak sejarah penting bagaimana Telkom memenuhi komitmennya untuk Indonesia dan Dunia.</p>",
+    "created_at": "2025-10-19T18:47:07.273Z"
+  },
+  {
+    "id": 4,
+    "name": "rafatek - Rafa teknologi solusi",
+    "logo": "uploads/industry/1760897594_logo.jpeg",
+    "website": "rafatek.co.id",
+    "description": "<p>Sekolah kami menjalin <strong>kemitraan industri</strong> dengan <strong>Rafatek</strong> untuk pengembangan keahlian siswa.</p>",
+    "created_at": "2025-10-20T01:13:14.681Z"
+  },
+  {
+    "id": 5,
+    "name": "Badan Informasi Geospasial",
+    "logo": "uploads/industry/1768097714_WhatsApp Image 2026-01-11 at 09.06.28.jpeg",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:15:14.776Z"
+  },
+  {
+    "id": 6,
+    "name": "PT. Kapsulindo Nusantara",
+    "logo": "uploads/industry/1768097945_WhatsApp Image 2026-01-11 at 09.06.42.jpeg",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:19:05.629Z"
+  },
+  {
+    "id": 7,
+    "name": "PT. Jala Lintas Media",
+    "logo": "uploads/industry/1768098033_download (17).jpeg",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:20:33.826Z"
+  },
+  {
+    "id": 8,
+    "name": "Badan Pengelolaan Pendapatan Daerah",
+    "logo": "uploads/industry/1768099267_Badan Pengelolaan Pendapatan Daerah.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:41:07.49Z"
+  },
+  {
+    "id": 9,
+    "name": "CV. Anugerah Jaya Computer ",
+    "logo": "uploads/industry/1768099613_CV.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:44:06.679Z"
+  },
+  {
+    "id": 10,
+    "name": "Dinas Kependudukan dan Pencatatan Sipil ",
+    "logo": "uploads/industry/1768099839_ALs6j_FCpBjEn_djK2I25jH6qqQUdW5G.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:50:39.193Z"
+  },
+  {
+    "id": 11,
+    "name": "Kencana Computer & Printing",
+    "logo": "uploads/industry/1768099887_AKGpihZHEa4BQKXytsW7WSDqwKxz7pc2.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:51:27.989Z"
+  },
+  {
+    "id": 12,
+    "name": "CV. Casanova Jaya Utama",
+    "logo": "uploads/industry/1768099922_AKGpihaPbdBMoHM4rRFZU-x-seI9B866.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:52:02.658Z"
+  },
+  {
+    "id": 13,
+    "name": "Koperasi Bina Sejahtera",
+    "logo": "uploads/industry/1768100119_Koperasi Bina Sejahtera.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:55:19.825Z"
+  },
+  {
+    "id": 14,
+    "name": "Koperasi Kredit Sejahtera",
+    "logo": "uploads/industry/1768100231_Koperasi Kredit Sejahtera.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:57:11.673Z"
+  },
+  {
+    "id": 15,
+    "name": "Perkumpulan Akademi Golf Indonesia",
+    "logo": "uploads/industry/1768100282_Perkumpulan Akademi Golf Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:58:02.269Z"
+  },
+  {
+    "id": 16,
+    "name": "PPPPTK Bahasa Kemendikbud RI",
+    "logo": "uploads/industry/1768100335_PPPPTK Bahasa Kemendikbud RI.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:58:55.613Z"
+  },
+  {
+    "id": 17,
+    "name": "PT. Adhimix Precast Indonesia",
+    "logo": "uploads/industry/1768100366_PT. Adhimix Precast Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T02:59:26.231Z"
+  },
+  {
+    "id": 18,
+    "name": "PT. Argha Karya Prima Industry Tbk.",
+    "logo": "uploads/industry/1768100405_PT. Argha Karya Prima Industry Tbk..webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:00:05.108Z"
+  },
+  {
+    "id": 19,
+    "name": "PT. Astra Komponen Indonesia",
+    "logo": "uploads/industry/1768100438_PT. Astra Komponen Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:00:38.379Z"
+  },
+  {
+    "id": 20,
+    "name": "PT. Bonet Utama",
+    "logo": "uploads/industry/1768100505_PT. Bonet Utama.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:01:45.682Z"
+  },
+  {
+    "id": 21,
+    "name": "PT. Focus Binaartha",
+    "logo": "uploads/industry/1768100539_PT. Focus Binaartha.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:02:19.33Z"
+  },
+  {
+    "id": 22,
+    "name": "PT. Indo Kordsa, Tbk.",
+    "logo": "uploads/industry/1768100644_PT. Indo Kordsa Tbk.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:04:04.767Z"
+  },
+  {
+    "id": 23,
+    "name": "PT. Indocement Tunggal Prakarsa, Tbk",
+    "logo": "uploads/industry/1768112199_PT. Indocement Tunggal Prakarsa, Tbk.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:04:52.809Z"
+  },
+  {
+    "id": 24,
+    "name": "PT. Jungleland Asia",
+    "logo": "uploads/industry/1768100900_PT. Jungleland Asia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:08:20.912Z"
+  },
+  {
+    "id": 25,
+    "name": "PT. Karabha Digdaya",
+    "logo": "uploads/industry/1768100950_PT. Karabha Digdaya.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:09:10.987Z"
+  },
+  {
+    "id": 26,
+    "name": "PT. Media Nusantara International",
+    "logo": "uploads/industry/1768100990_PT. Media Nusantara International.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:09:50.446Z"
+  },
+  {
+    "id": 27,
+    "name": "PT. Savero Indohotel Nusantara",
+    "logo": "uploads/industry/1768104486_PT. Savero Indohotel Nusantara.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:10:27.776Z"
+  },
+  {
+    "id": 28,
+    "name": "PT. Shin Han Indonesia",
+    "logo": "uploads/industry/1768101061_PT. Shin Han Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:11:01.574Z"
+  },
+  {
+    "id": 29,
+    "name": "PT. Sumber Koneksi Indonesia",
+    "logo": "uploads/industry/1768101340_PT. Sumber Koneksi Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:15:40.657Z"
+  },
+  {
+    "id": 30,
+    "name": "PT. Suntory Garuda Beverage",
+    "logo": "uploads/industry/1768101415_PT. Suntory Garuda Beverage.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:16:55.833Z"
+  },
+  {
+    "id": 31,
+    "name": "Sekolah Tinggi Ekonomi Islam (STEI) Tazkia",
+    "logo": "uploads/industry/1768101436_Sekolah Tinggi Ekonomi Islam (STEI) Tazkia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:17:16.627Z"
+  },
+  {
+    "id": 32,
+    "name": "Arafah Game Center",
+    "logo": "uploads/industry/1768101490_Arafah Game Center.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:18:10.833Z"
+  },
+  {
+    "id": 34,
+    "name": "BANK BTN Cabang Cibinong",
+    "logo": "uploads/industry/1768101574_BANK BTN Cabang Cibinong.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:19:34.414Z"
+  },
+  {
+    "id": 35,
+    "name": "BANK MANDIRI",
+    "logo": "uploads/industry/1768101754_BANK MANDIRI.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:22:34.34Z"
+  },
+  {
+    "id": 36,
+    "name": "CV Bimbel Bifi Smart ",
+    "logo": "uploads/industry/1768101836_CV Bimbel Bifi Smart .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:23:56.905Z"
+  },
+  {
+    "id": 37,
+    "name": "Jakarta Global University",
+    "logo": "uploads/industry/1768101872_Jakarta Global University.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:24:32.121Z"
+  },
+  {
+    "id": 38,
+    "name": "Kantor Kelurahan Ciriug ",
+    "logo": "uploads/industry/1768101899_Kantor Kelurahan Ciriug .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:24:59.531Z"
+  },
+  {
+    "id": 39,
+    "name": "Kantor Sekretaris Daerah Kab Bogor",
+    "logo": "uploads/industry/1768102058_Kantor Sekretaris Daerah Kab Bogor.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:27:38.708Z"
+  },
+  {
+    "id": 40,
+    "name": "Koperasi Bina Sejahtera",
+    "logo": "uploads/industry/1768102120_Koperasi Bina Sejahtera.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:28:40.405Z"
+  },
+  {
+    "id": 41,
+    "name": "PT Aceng Production",
+    "logo": "uploads/industry/1768102143_PT Aceng Production.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:29:03.861Z"
+  },
+  {
+    "id": 42,
+    "name": "PT Adhi Commuter LRT City Sentul",
+    "logo": "uploads/industry/1768102163_PT Adhi Commuter LRT City Sentul.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:29:23.07Z"
+  },
+  {
+    "id": 43,
+    "name": "PT Anugrah Yaden utama",
+    "logo": "uploads/industry/1768102186_PT Anugrah Yaden utama.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:29:46.286Z"
+  },
+  {
+    "id": 44,
+    "name": "PT Bintang Niaga Jaya Honda",
+    "logo": "uploads/industry/1768102445_PT Bintang Niaga Jaya Honda.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:34:05.492Z"
+  },
+  {
+    "id": 45,
+    "name": "PT Cahaya Metal Perakasa",
+    "logo": "uploads/industry/1768102517_PT Cahaya Metal Perakasa.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:35:17.327Z"
+  },
+  {
+    "id": 46,
+    "name": "PT Cartenez Technology",
+    "logo": "uploads/industry/1768102548_PT Cartenez Technology.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:35:48.396Z"
+  },
+  {
+    "id": 47,
+    "name": "PT Ciptrada",
+    "logo": "uploads/industry/1768102575_PT Ciptrada .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:36:15.295Z"
+  },
+  {
+    "id": 48,
+    "name": "PT Dharma Karyatama Mulia.webp",
+    "logo": "uploads/industry/1768102614_PT Dharma Karyatama Mulia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:36:54.738Z"
+  },
+  {
+    "id": 49,
+    "name": "PT Dinas Pertamanan dan Hutan Unit Pengelola Taman Margasatwa ",
+    "logo": "uploads/industry/1768102632_PT Dinas Pertamanan dan Hutan Unit Pengelola Taman Margasatwa .jpg",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:37:12.052Z"
+  },
+  {
+    "id": 50,
+    "name": "PT Elangperdana Tyre industry Logo",
+    "logo": "uploads/industry/1768102655_PT Elangperdana Tyre industry Logo.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:37:35.049Z"
+  },
+  {
+    "id": 51,
+    "name": "PT Elnusa",
+    "logo": "uploads/industry/1768102697_PT Elnusa.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:38:17.048Z"
+  },
+  {
+    "id": 52,
+    "name": "PT Empat Pilar Presisi",
+    "logo": "uploads/industry/1768102717_PT Empat Pilar Presisi.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:38:37.013Z"
+  },
+  {
+    "id": 53,
+    "name": "PT Fandiego Travel",
+    "logo": "uploads/industry/1768102741_PT Fandiego Travel .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:39:01.67Z"
+  },
+  {
+    "id": 54,
+    "name": "PT FUMIDA PESTIDO JAYA",
+    "logo": "uploads/industry/1768102765_PT FUMIDA PESTIDO JAYA.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:39:25.663Z"
+  },
+  {
+    "id": 55,
+    "name": "PT Garasi Creasindo Indonesia",
+    "logo": "uploads/industry/1768102804_PT Garasi Creasindo Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:40:04.461Z"
+  },
+  {
+    "id": 56,
+    "name": "PT Gaurda Gemah Nusantara",
+    "logo": "uploads/industry/1768102838_PT Gaurda Gemah Nusantara.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:40:38.73Z"
+  },
+  {
+    "id": 57,
+    "name": "PT Green Chemicals Indonesia",
+    "logo": "uploads/industry/1768102858_PT Green Chemicals Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:40:58.694Z"
+  },
+  {
+    "id": 58,
+    "name": "PT Indokordsa Tbk ",
+    "logo": "uploads/industry/1768102878_PT Indokordsa Tbk .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:41:18.84Z"
+  },
+  {
+    "id": 59,
+    "name": "PT IT Pro Security Professionals",
+    "logo": "uploads/industry/1768102897_PT IT Pro Security Professionals.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:41:37.371Z"
+  },
+  {
+    "id": 60,
+    "name": "PT ITMVISION",
+    "logo": "uploads/industry/1768102916_PT ITMVISION.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:41:56.871Z"
+  },
+  {
+    "id": 61,
+    "name": "PT JSD Project Souvenir & Invitation",
+    "logo": "uploads/industry/1768103018_PT JSD Project Souvenir & Invitation.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:43:38.546Z"
+  },
+  {
+    "id": 62,
+    "name": "PT Kantor DISDUKCAPIL KAB Bogor ",
+    "logo": "uploads/industry/1768103054_PT Kantor DISDUKCAPIL KAB Bogor .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:44:14.023Z"
+  },
+  {
+    "id": 63,
+    "name": "PT Khenzi Multi Finance",
+    "logo": "uploads/industry/1768103075_PT Khenzi Multi Finance.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:44:35.572Z"
+  },
+  {
+    "id": 64,
+    "name": "LEE MING ZHU COMPANY",
+    "logo": "uploads/industry/1768103229_LEE MING ZHU COMPANY.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:47:09.755Z"
+  },
+  {
+    "id": 65,
+    "name": "PT Mitra natura Jaya",
+    "logo": "uploads/industry/1768103295_PT Mitra natura Jaya.jpg",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:48:15.321Z"
+  },
+  {
+    "id": 66,
+    "name": "PT Napolly",
+    "logo": "uploads/industry/1768103366_PT Napolly.jpg",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:49:26.036Z"
+  },
+  {
+    "id": 67,
+    "name": "PT Rhema Building Convention Center",
+    "logo": "uploads/industry/1768103528_PT Rhema Building Convention Center.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:52:08.875Z"
+  },
+  {
+    "id": 68,
+    "name": "PT Samudra Biru Depelopment",
+    "logo": "uploads/industry/1768103696_PT Samudra Biru Depelopment.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:52:43.556Z"
+  },
+  {
+    "id": 69,
+    "name": "PT Sarana Estika Teknologi",
+    "logo": "uploads/industry/1768103747_PT Sarana Estika Teknologi.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:55:47.666Z"
+  },
+  {
+    "id": 70,
+    "name": "PT Sigma Utama Paint",
+    "logo": "uploads/industry/1768103771_PT Sigma Utama Paint.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:56:11.575Z"
+  },
+  {
+    "id": 71,
+    "name": "PT Sumarecon Bogor",
+    "logo": "uploads/industry/1768103938_PT Sumarecon Bogor.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T03:58:58.46Z"
+  },
+  {
+    "id": 72,
+    "name": "PT Telkom Akses Bogor",
+    "logo": "uploads/industry/1768104123_PT Telkom Akses Bogor.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T04:02:03.252Z"
+  },
+  {
+    "id": 73,
+    "name": "PT Tenzi Jaya Sutar",
+    "logo": "uploads/industry/1768104242_PT Tenzi Jaya Sutar.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T04:04:02.323Z"
+  },
+  {
+    "id": 74,
+    "name": "PT Tokai Dharma Indonesia.",
+    "logo": "uploads/industry/1768104582_PT Tokai Dharma Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T04:09:42.365Z"
+  },
+  {
+    "id": 75,
+    "name": "Badan Penanggulangan Bencana Daerah",
+    "logo": "uploads/industry/1768110722_Badan Penanggulangan Bencana Daerah.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:52:02.335Z"
+  },
+  {
+    "id": 76,
+    "name": "Bianca Wedding Bridal & Photography",
+    "logo": "uploads/industry/1768110732_Bianca Wedding Bridal & Photography.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:52:12.998Z"
+  },
+  {
+    "id": 77,
+    "name": "Bloom's Baby",
+    "logo": "uploads/industry/1768110745_Bloom's Baby.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:52:25.466Z"
+  },
+  {
+    "id": 78,
+    "name": "CV. Conslink Teknikindo",
+    "logo": "uploads/industry/1768110755_CV. Conslink Teknikindo.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:52:35.954Z"
+  },
+  {
+    "id": 79,
+    "name": "CV. Indo Jaya Tehnik",
+    "logo": "uploads/industry/1768110772_CV. Indo Jaya Tehnik.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:52:52.579Z"
+  },
+  {
+    "id": 80,
+    "name": "CV. Putra Mandiri",
+    "logo": "uploads/industry/1768110803_CV. Putra Mandiri.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:53:23.329Z"
+  },
+  {
+    "id": 81,
+    "name": "CV. Shoniacoimages",
+    "logo": "uploads/industry/1768110833_CV. Shoniacoimages.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:53:53.005Z"
+  },
+  {
+    "id": 82,
+    "name": "Dapur Digital Cibinong",
+    "logo": "uploads/industry/1768110842_Dapur Digital Cibinong.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:54:02.911Z"
+  },
+  {
+    "id": 83,
+    "name": "Dinas Pekerjaan Umum",
+    "logo": "uploads/industry/1768110866_Dinas Pekerjaan Umum.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:54:26.159Z"
+  },
+  {
+    "id": 84,
+    "name": "Griya Toserba",
+    "logo": "uploads/industry/1768110887_Griya Toserba.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:54:47.664Z"
+  },
+  {
+    "id": 85,
+    "name": "Hikmah Graphia Digital Printing",
+    "logo": "uploads/industry/1768110898_Hikmah Graphia Digital Printing.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:54:58.637Z"
+  },
+  {
+    "id": 86,
+    "name": "Institut Agama Islam Nasional Laa Roiba",
+    "logo": "uploads/industry/1768110923_Institut Agama Islam Nasional Laa Roiba.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:55:23.091Z"
+  },
+  {
+    "id": 87,
+    "name": "JAGORAWI GOLF & COUNTRY CLUB",
+    "logo": "uploads/industry/1768110936_JAGORAWI GOLF & COUNTRY CLUB.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:55:36.56Z"
+  },
+  {
+    "id": 88,
+    "name": "Kantor Kelurahan Cibinong",
+    "logo": "uploads/industry/1768110960_Kantor Kelurahan Cibinong.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:56:00.774Z"
+  },
+  {
+    "id": 89,
+    "name": "Wings Picture",
+    "logo": "uploads/industry/1768111111_Wings Picture.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T05:58:31.763Z"
+  },
+  {
+    "id": 90,
+    "name": "Rumah Coding",
+    "logo": "uploads/industry/1768111525_Rumah Coding.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:05:25.418Z"
+  },
+  {
+    "id": 91,
+    "name": "Radio Silaturahim",
+    "logo": "uploads/industry/1768111548_Radio Silaturahim.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:05:48.371Z"
+  },
+  {
+    "id": 92,
+    "name": "PT. Surya Teknik",
+    "logo": "uploads/industry/1768111570_PT. Surya Teknik.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:06:10.001Z"
+  },
+  {
+    "id": 93,
+    "name": "PT. Omega Media Global",
+    "logo": "uploads/industry/1768111682_PT. Omega Media Global.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:08:02.889Z"
+  },
+  {
+    "id": 94,
+    "name": "PT. Arjuna Citra Indonesia",
+    "logo": "uploads/industry/1768111699_PT. Arjuna Citra Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:08:19.997Z"
+  },
+  {
+    "id": 95,
+    "name": "PT. BPR Supra Artapersada",
+    "logo": "uploads/industry/1768111719_PT. BPR Supra Artapersada.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:08:39.014Z"
+  },
+  {
+    "id": 96,
+    "name": "PT Radio Sawara Citra Aditama",
+    "logo": "uploads/industry/1768111736_PT Radio Sawara Citra Aditama.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:08:56.07Z"
+  },
+  {
+    "id": 97,
+    "name": "PT Cahaya Buana Furindotama",
+    "logo": "uploads/industry/1768111785_PT Cahaya Buana Furindotama.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:09:45.83Z"
+  },
+  {
+    "id": 98,
+    "name": "Pretty Balloon Party Planner",
+    "logo": "uploads/industry/1768111809_Pretty Balloon Party Planner.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:10:09.925Z"
+  },
+  {
+    "id": 99,
+    "name": "Notaris & PPAT Sahrawati ",
+    "logo": "uploads/industry/1768111863_Notaris & PPAT Sahrawati .webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:11:03.05Z"
+  },
+  {
+    "id": 100,
+    "name": "MC Komputer",
+    "logo": "uploads/industry/1768111881_MC Komputer.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:11:21.45Z"
+  },
+  {
+    "id": 101,
+    "name": "Koperasi Syariah Bina Usaha Sejahtera",
+    "logo": "uploads/industry/1768111903_Koperasi Syariah Bina Usaha Sejahtera.png",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:11:43.837Z"
+  },
+  {
+    "id": 102,
+    "name": "Kelurahan Tengah",
+    "logo": "uploads/industry/1768111935_Kelurahan Tengah.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:12:15.122Z"
+  },
+  {
+    "id": 103,
+    "name": "Kaone Corporation",
+    "logo": "uploads/industry/1768111955_Kaone Corporation.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:12:35.309Z"
+  },
+  {
+    "id": 104,
+    "name": "Kantor Desa Cicadas",
+    "logo": "uploads/industry/1768111967_Kantor Desa Cicadas.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:12:47.15Z"
+  },
+  {
+    "id": 105,
+    "name": "Gamelab Indonesia",
+    "logo": "uploads/industry/1768111983_Gamelab Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:13:03.253Z"
+  },
+  {
+    "id": 106,
+    "name": "DPKPP",
+    "logo": "uploads/industry/1768112013_DPKPP.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:13:33.481Z"
+  },
+  {
+    "id": 107,
+    "name": "Dinas Komunikasi dan Informatika",
+    "logo": "uploads/industry/1768112028_Dinas Komunikasi dan Informatika.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:13:48.09Z"
+  },
+  {
+    "id": 108,
+    "name": "Deta Yamaha Pondok Bambu",
+    "logo": "uploads/industry/1768112039_Deta Yamaha Pondok Bambu.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:13:59.328Z"
+  },
+  {
+    "id": 109,
+    "name": "Depok Online Shop",
+    "logo": "uploads/industry/1768112048_Depok Online Shop.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:14:08.606Z"
+  },
+  {
+    "id": 110,
+    "name": "CV. Sinergi Primatama Edukasi",
+    "logo": "uploads/industry/1768112058_CV. Sinergi Primatama Edukasi.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:14:18.817Z"
+  },
+  {
+    "id": 111,
+    "name": "CV Unch Indonesia",
+    "logo": "uploads/industry/1768112074_CV Unch Indonesia.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:14:34.518Z"
+  },
+  {
+    "id": 112,
+    "name": "CV Mediatama Perkasa",
+    "logo": "uploads/industry/1768112092_CV Mediatama Perkasa.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:14:52.175Z"
+  },
+  {
+    "id": 113,
+    "name": "Casscom",
+    "logo": "uploads/industry/1768112105_Casscom.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:15:05.701Z"
+  },
+  {
+    "id": 114,
+    "name": "Carreon Loka Imaji",
+    "logo": "uploads/industry/1768112121_Carreon Loka Imaji.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:15:21.021Z"
+  },
+  {
+    "id": 115,
+    "name": "ACI",
+    "logo": "uploads/industry/1768112146_ACI.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:15:46.411Z"
+  },
+  {
+    "id": 116,
+    "name": "PT. DIgital Forte Indonesia",
+    "logo": "uploads/industry/1768113239_PT. Digital Forte Indonesia RMVBG.webp",
+    "website": "",
+    "description": "",
+    "created_at": "2026-01-11T06:33:59.446Z"
+  }
+]
