@@ -21,7 +21,7 @@ if not DATA_PATH.exists():
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
-    torch_dtype=torch.bfloat16,
+    dtype=torch.bfloat16,
     device_map="cpu",
 )
 
@@ -52,6 +52,7 @@ print(f"Loaded {len(dataset)} training examples from {DATA_PATH}")
 # 4. Train
 trainer = SFTTrainer(
     model=model,
+    processing_class=tokenizer,
     args=SFTConfig(
         output_dir="out",
         num_train_epochs=3,
@@ -59,7 +60,7 @@ trainer = SFTTrainer(
         gradient_accumulation_steps=8,
         learning_rate=2e-4,
         dataset_text_field="text",
-        max_seq_length=2048,
+        max_length=2048,
         logging_steps=10,
         bf16=True,
         use_cpu=True,
