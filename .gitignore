@@ -8,3 +8,25 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Large / generated model artifacts
+out/
+school-assistant-merged/
+data/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Ignore the cloned llama.cpp repository folder
+llama.cpp/
+
+# Editor / OS clutter
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
