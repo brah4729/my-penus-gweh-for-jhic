@@ -13,6 +13,7 @@ wheels/
 out/
 school-assistant-merged/
 data/
+scrape/
 *.gguf
 *.safetensors
 *.bin
