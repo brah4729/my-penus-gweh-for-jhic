@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Chat - SMK Plus Pelita Nusantara Assistant</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --user-bubble: #6366f1;
+    --bot-bubble: #334155;
+    --fallback-bubble: #7c2d12;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  header h1 {
+    font-size: 16px;
+    margin: 0;
+    color: var(--text);
+  }
+  header .status {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .status.ok { color: #4ade80; }
+  .status.error { color: #f87171; }
+
+  #config {
+    padding: 10px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  #config input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  #config input#apiUrl { flex: 1; min-width: 220px; }
+  #config input#apiKey { flex: 1; min-width: 180px; }
+  #config button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  #config button:hover { background: var(--accent-hover); }
+
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    line-height: 1.4;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--user-bubble);
+    color: white;
+    border-bottom-right-radius: 2px;
+  }
+  .msg.bot {
+    align-self: flex-start;
+    background: var(--bot-bubble);
+    border-bottom-left-radius: 2px;
+  }
+  .msg.fallback {
+    align-self: flex-start;
+    background: var(--fallback-bubble);
+    border-bottom-left-radius: 2px;
+  }
+  .msg.error {
+    align-self: flex-start;
+    background: #7f1d1d;
+    border-bottom-left-radius: 2px;
+  }
+  .sources {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 6px;
+  }
+  .sources div { margin-top: 2px; }
+
+  .typing {
+    align-self: flex-start;
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  #inputBar {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--panel);
+  }
+  #questionInput {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  #sendBtn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  #sendBtn:hover { background: var(--accent-hover); }
+  #sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .timing {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SMK Plus Pelita Nusantara &mdash; Test Chat</h1>
+  <span id="statusIndicator" class="status">checking...</span>
+</header>
+
+<div id="config">
+  <input id="apiUrl" type="text" placeholder="API URL, e.g. http://127.0.0.1:8000" value="http://127.0.0.1:8000">
+  <input id="apiKey" type="text" placeholder="X-API-Key (leave blank if not set)">
+  <button id="checkHealthBtn">Check connection</button>
+</div>
+
+<div id="messages"></div>
+
+<div id="inputBar">
+  <input id="questionInput" type="text" placeholder="Tanya sesuatu tentang sekolah..." autocomplete="off">
+  <button id="sendBtn">Kirim</button>
+</div>
+
+<script>
+const messagesEl = document.getElementById('messages');
+const questionInput = document.getElementById('questionInput');
+const sendBtn = document.getElementById('sendBtn');
+const apiUrlInput = document.getElementById('apiUrl');
+const apiKeyInput = document.getElementById('apiKey');
+const statusIndicator = document.getElementById('statusIndicator');
+const checkHealthBtn = document.getElementById('checkHealthBtn');
+
+function addMessage(text, cls, sources) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + cls;
+  div.textContent = text;
+
+  if (sources && sources.length > 0) {
+    const srcDiv = document.createElement('div');
+    srcDiv.className = 'sources';
+    srcDiv.innerHTML = '<strong>Sumber:</strong>' +
+      sources.map(s => `<div>(${s.score.toFixed(3)}) [${s.source}] ${s.text.slice(0, 60)}...</div>`).join('');
+    div.appendChild(srcDiv);
+  }
+
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return div;
+}
+
+function addTyping() {
+  const div = document.createElement('div');
+  div.className = 'typing';
+  div.textContent = 'Mengetik...';
+  div.id = 'typingIndicator';
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+async function checkHealth() {
+  const apiUrl = apiUrlInput.value.trim().replace(/\/$/, '');
+  statusIndicator.textContent = 'checking...';
+  statusIndicator.className = 'status';
+  try {
+    const resp = await fetch(apiUrl + '/health');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    statusIndicator.textContent = `connected (${data.documents_loaded} docs loaded)`;
+    statusIndicator.className = 'status ok';
+  } catch (err) {
+    statusIndicator.textContent = 'disconnected: ' + err.message;
+    statusIndicator.className = 'status error';
+  }
+}
+
+async function sendQuestion() {
+  const question = questionInput.value.trim();
+  if (!question) return;
+
+  const apiUrl = apiUrlInput.value.trim().replace(/\/$/, '');
+  const apiKey = apiKeyInput.value.trim();
+
+  addMessage(question, 'user');
+  questionInput.value = '';
+  sendBtn.disabled = true;
+  addTyping();
+
+  const startTime = performance.now();
+
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (apiKey) headers['X-API-Key'] = apiKey;
+
+    const resp = await fetch(apiUrl + '/chat', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ question }),
+    });
+
+    removeTyping();
+
+    if (!resp.ok) {
+      const errText = await resp.text();
+      addMessage(`Error ${resp.status}: ${errText}`, 'error');
+      return;
+    }
+
+    const data = await resp.json();
+    const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+    const isFallback = data.sources.length === 0;
+    const msgDiv = addMessage(data.answer, isFallback ? 'fallback' : 'bot', data.sources);
+
+    const timingDiv = document.createElement('div');
+    timingDiv.className = 'timing';
+    timingDiv.textContent = `${elapsed}s`;
+    msgDiv.appendChild(timingDiv);
+
+  } catch (err) {
+    removeTyping();
+    addMessage('Gagal terhubung: ' + err.message, 'error');
+  } finally {
+    sendBtn.disabled = false;
+    questionInput.focus();
+  }
+}
+
+sendBtn.addEventListener('click', sendQuestion);
+questionInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendQuestion();
+});
+checkHealthBtn.addEventListener('click', checkHealth);
+
+// Check connection on load
+checkHealth();
+</script>
+
+</body>
+</html>

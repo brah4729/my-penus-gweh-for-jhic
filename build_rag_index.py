@@ -8,6 +8,14 @@ the relevant fact(s) at query time and hand them to the model as context.
 The model then only needs to phrase an answer from what it's given, not
 recall it from its own weights.
 
+Includes both:
+  - individual per-item documents (one teacher, one eskul, etc.) for
+    specific questions ("who teaches math")
+  - aggregate "list all X" documents for broad questions ("who are all
+    the teachers", "what extracurriculars exist") -- broad questions don't
+    match any single individual document well, so they need their own
+    dedicated summary document to retrieve against.
+
 Run:
     uv run python build_rag_index.py
 """
@@ -22,16 +30,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 RAW_DIR = Path("data/raw")
 INDEX_PATH = Path("data/rag_index.pkl")
 
-# Generic words that appear in nearly every document (school name, common
-# Indonesian function words) and were causing false-positive matches --
-# e.g. "Siapa presiden Indonesia?" was matching random industry partners
-# just because their names contain "Indonesia". Stripping these forces
-# retrieval to key on actually distinguishing content instead.
+# Generic words that appear in nearly every document (mainly the fixed
+# school name) and were causing false-positive matches -- e.g. "Siapa
+# presiden Indonesia?" was matching random industry partners just because
+# their names contain "Indonesia". NOTE: "guru"/"smk" are deliberately NOT
+# in this list -- they're real signal words for teacher/school-scope
+# queries (an earlier version wrongly stripped them, which broke broad
+# questions like "siapa saja guru di sekolah ini").
 STOPWORDS = [
-    "smk", "plus", "pelita", "nusantara", "indonesia", "sekolah",
+    "plus", "pelita", "nusantara", "indonesia", "sekolah",
     "adalah", "yang", "di", "dan", "dengan", "untuk", "ini", "itu",
     "dari", "ke", "pada", "sebagai", "salah", "satu", "atau", "juga",
-    "akan", "telah", "para", "oleh", "dalam", "guru", "siswa",
+    "akan", "telah", "para", "oleh", "dalam",
 ]
 
 
@@ -54,7 +64,8 @@ def build_documents():
     """Each document is one retrievable fact: (text_shown_to_model, source_tag)."""
     docs = []
 
-    for t in load("teacher"):
+    teachers = load("teacher")
+    for t in teachers:
         name = t.get("full_name", "").strip()
         subject = t.get("subject", "").strip()
         position = t.get("position", "").strip()
@@ -69,7 +80,18 @@ def build_documents():
             text += f" {desc}"
         docs.append({"text": text, "source": "teacher"})
 
-    for e in load("eskul"):
+    # Aggregate: broad "who are all the teachers" questions need this,
+    # since no individual teacher document matches a generic query well.
+    names = [t.get("full_name", "").strip() for t in teachers if t.get("full_name")]
+    if names:
+        listing = ", ".join(names)
+        docs.append({
+            "text": f"Daftar guru-guru di SMK Plus Pelita Nusantara: {listing}.",
+            "source": "teacher_aggregate",
+        })
+
+    eskuls = load("eskul")
+    for e in eskuls:
         name = e.get("name", "").strip()
         desc = clean_html(e.get("description", ""))
         pembina = e.get("Pembina", {}).get("full_name", "").strip()
@@ -82,7 +104,15 @@ def build_documents():
             text += f" Pembina: {pembina}."
         docs.append({"text": text, "source": "eskul"})
 
-    for a in load("achievement"):
+    eskul_names = [e.get("name", "").strip() for e in eskuls if e.get("name")]
+    if eskul_names:
+        docs.append({
+            "text": f"Daftar ekstrakurikuler di SMK Plus Pelita Nusantara: {', '.join(eskul_names)}.",
+            "source": "eskul_aggregate",
+        })
+
+    achievements = load("achievement")
+    for a in achievements:
         title = a.get("title", "").strip()
         desc = clean_html(a.get("description", ""))
         if not title:
@@ -91,6 +121,13 @@ def build_documents():
         if desc:
             text += f" {desc}"
         docs.append({"text": text, "source": "achievement"})
+
+    achievement_titles = [a.get("title", "").strip() for a in achievements if a.get("title")]
+    if achievement_titles:
+        docs.append({
+            "text": f"Daftar prestasi SMK Plus Pelita Nusantara: {'; '.join(achievement_titles)}.",
+            "source": "achievement_aggregate",
+        })
 
     for n in load("news"):
         title = n.get("title", "").strip()
@@ -116,7 +153,8 @@ def build_documents():
             text += f" Lokasi: {location}."
         docs.append({"text": text, "source": "event"})
 
-    for p in load("industry"):
+    industry = load("industry")
+    for p in industry:
         name = p.get("name", "").strip()
         desc = clean_html(p.get("description", ""))
         if not name:
@@ -125,6 +163,13 @@ def build_documents():
         if desc:
             text += f" {desc}"
         docs.append({"text": text, "source": "industry"})
+
+    industry_names = [p.get("name", "").strip() for p in industry if p.get("name")]
+    if industry_names:
+        docs.append({
+            "text": f"Daftar mitra industri SMK Plus Pelita Nusantara: {', '.join(industry_names)}.",
+            "source": "industry_aggregate",
+        })
 
     for t in load("testimonial"):
         name = t.get("name", "").strip()
