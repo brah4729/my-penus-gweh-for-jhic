@@ -50,12 +50,6 @@ if not API_KEY:
 
 app = FastAPI()
 
-# CORS: needed so a browser-based test page (opened as a local file, or
-# served from a different host/port than this API) can actually receive
-# the response. Without this, the browser blocks it even though the server
-# handled the request fine -- CORS is enforced client-side, not server-side.
-# allow_origins=["*"] is fine for a testing tool; tighten this if this API
-# ever needs to be called directly from a public-facing browser page.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -76,6 +70,8 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     sources: list[dict]
+    completion_tokens: int | None = None
+    prompt_tokens: int | None = None
 
 
 def check_api_key(x_api_key: str | None):
@@ -101,7 +97,7 @@ def retrieve(question: str):
 
 def ask_model(question: str, retrieved: list):
     if not retrieved:
-        return FALLBACK_MESSAGE
+        return FALLBACK_MESSAGE, None, None
 
     context = "\n".join(f"- {r['text']}" for r in retrieved)
     system_prompt = SYSTEM_PROMPT_WITH_CONTEXT.format(context=context)
@@ -117,20 +113,29 @@ def ask_model(question: str, retrieved: list):
     }
     resp = requests.post(LLAMA_SERVER_URL, json=payload, timeout=120)
     resp.raise_for_status()
-    message = resp.json()["choices"][0]["message"]
-    return message.get("content") or FALLBACK_MESSAGE
+    data = resp.json()
+    message = data["choices"][0]["message"]
+    usage = data.get("usage", {})
+    return (
+        message.get("content") or FALLBACK_MESSAGE,
+        usage.get("completion_tokens"),
+        usage.get("prompt_tokens"),
+    )
 
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest, x_api_key: str | None = Header(default=None)):
     check_api_key(x_api_key)
     retrieved = retrieve(req.question)
-    answer = ask_model(req.question, retrieved)
-    return ChatResponse(answer=answer, sources=retrieved)
+    answer, completion_tokens, prompt_tokens = ask_model(req.question, retrieved)
+    return ChatResponse(
+        answer=answer,
+        sources=retrieved,
+        completion_tokens=completion_tokens,
+        prompt_tokens=prompt_tokens,
+    )
 
 
 @app.get("/health")
 def health():
-    # Deliberately unauthenticated -- lets you/monitoring check liveness
-    # without a key, but reveals nothing sensitive.
     return {"status": "ok", "documents_loaded": len(_index["documents"])}

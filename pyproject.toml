@@ -10,6 +10,7 @@ dependencies = [
     "bitsandbytes>=0.50.2",
     "datasets>=5.0.1",
     "fastapi>=0.141.1",
+    "huggingface-hub>=1.32.0",
     "matplotlib>=3.11.2",
     "numpy>=2.4.6",
     "pandas>=3.0.6",
