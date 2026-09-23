@@ -33,12 +33,18 @@ Two things work together to keep the assistant accurate on a small model:
 6. `build_rag_index.py` → `data/rag_index.pkl` (TF-IDF index used at
    inference time, independent of the fine-tuned model)
 7. Serve: `llama-server` (from llama.cpp, localhost-only) behind
-   `api_server.py` (FastAPI, does retrieval + calls llama-server) — see
-   the docstring in `api_server.py` for the intended Laravel → FastAPI →
-   llama-server VPS topology.
+   `api_server.py` (FastAPI, does retrieval + calls llama-server). The
+   client side is framework-agnostic — it's a plain REST endpoint, called
+   from a Go/Fiber backend or Laravel identically. See the docstring in
+   `api_server.py` for the two supported deployment topologies (same-VPS
+   vs. separate-VPS, switched via the `HOST` env var) and for
+   `ALLOWED_ORIGINS`.
 
 `chat_with_rag.py` is the CLI equivalent of `api_server.py` for local
-testing without standing up the HTTP layer.
+testing without standing up the HTTP layer. `chat_test.html` is a
+standalone browser-based chat UI for manual testing — see the CORS note
+below, since it needs `ALLOWED_ORIGINS` set to work against the current
+`api_server.py`.
 
 ## `llama.cpp/fix_qwen35_gguf.py` — why it exists
 
@@ -55,6 +61,33 @@ its own `AGENTS.md`/`CLAUDE.md`) — don't treat it as project code to
 maintain; `fix_qwen35_gguf.py` is the one file in there that's actually
 ours.
 
+## `api_server.py` deployment model
+
+Controlled by two env vars, checked at import time (so a misconfiguration
+fails loudly on startup, not silently in production):
+
+- **`HOST`** (default `127.0.0.1`) — signals which topology this instance
+  is running under. `127.0.0.1`/`localhost`/`::1` means the backend
+  (Fiber/Laravel/whatever) is on the same box, talking over loopback.
+  Anything else means this hop crosses a network boundary.
+- **`ASSISTANT_API_KEY`** — if unset AND `HOST` is loopback, the app
+  prints a warning and starts anyway (fine for local dev). If unset AND
+  `HOST` is *not* loopback, **the app refuses to start** (`SystemExit`)
+  rather than silently exposing an unauthenticated `/chat` endpoint
+  off-box. Don't relax this back to "warn and continue" for the
+  off-loopback case — that was the whole point of the change.
+- **`ALLOWED_ORIGINS`** — comma-separated list; CORS middleware is only
+  added at all if this is non-empty. Default is CORS *closed*, not wide
+  open — the assumption is server-to-server calls (Fiber/Laravel →
+  here), which don't need CORS at all (no browser origin involved).
+  **This means `chat_test.html` (browser-based manual testing) will fail
+  silently unless you set `ALLOWED_ORIGINS=*` when running `uvicorn` for
+  that purpose.** This is expected, not a bug — don't "fix" it by
+  defaulting CORS back to open.
+
+`llama-server` itself stays bound to `localhost` in every topology, full
+stop — it is never the thing exposed off-box, `api_server.py` always is.
+
 ## Known gaps / footguns
 
 - **`data/datasets.jsonl` only has factual QA.** `build_dataset.py`'s own
@@ -68,9 +101,14 @@ ours.
   size (real matches land ~0.35–0.43). Re-check it if the dataset grows —
   more documents shift the score distribution. If you change it in one
   file, change it in the other.
-- **`api_server.py` is unauthenticated if `ASSISTANT_API_KEY` isn't set**
-  (it just prints a warning and continues). Don't deploy without setting
-  that env var. CORS is currently wide open (`allow_origins=["*"]`).
+- **Aggregate/"list all X" documents can lose the ranking race** against
+  individual per-item documents for broad queries (TF-IDF normalizes by
+  document length, so a long aggregate doc's key term gets diluted vs. a
+  short individual doc's). Confirmed happening for a "who are all the
+  teachers" query, which returned 3 random individual teachers instead of
+  the full `teacher_aggregate` list. Not yet fixed — if you touch
+  retrieval ranking, this is a known open issue, not a regression you
+  introduced.
 - Package management is **`uv`**, not pip/poetry — use `uv run python ...`
   / `uv add ...`.
 
