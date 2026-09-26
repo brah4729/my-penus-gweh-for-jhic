@@ -18,6 +18,7 @@ dependencies = [
     "requests>=2.34.2",
     "scikit-learn>=1.9.1",
     "scrapy>=2.19.0",
+    "tokenizers>=0.23.2",
     "torch>=2.14.0",
     "transformers>=5.17.0",
     "trl>=1.13.0",
