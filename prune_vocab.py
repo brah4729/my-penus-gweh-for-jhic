@@ -13,6 +13,7 @@ Usage:
 """
 
 import json
+import pickle
 from pathlib import Path
 
 import torch
@@ -21,6 +22,22 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 MERGED_DIR = "school-assistant-merged"
 OUT_DIR = "school-assistant-pruned"
 DATASET_PATH = "data/datasets.jsonl"
+RAG_INDEX_PATH = "data/rag_index.pkl"
+
+# These are hardcoded in chat_with_rag.py / api_server.py -- NOT part of
+# datasets.jsonl at all. Missing these was the actual bug that broke the
+# first pruning attempt: the model's own instruction prompt got shredded
+# into byte-fallback fragments it had never seen, so it stopped recognizing
+# it as an instruction and just echoed the question back instead.
+RUNTIME_PROMPT_STRINGS = [
+    "Kamu adalah asisten AI untuk SMK Plus Pelita Nusantara. "
+    "Jawab HANYA berdasarkan informasi di bawah ini. "
+    "Jika informasi yang dibutuhkan tidak ada di bawah, katakan dengan jujur "
+    "bahwa kamu tidak memiliki informasi tersebut -- jangan mengarang jawaban.\n\n"
+    "INFORMASI:\n",
+    "Maaf, aku tidak memiliki informasi tentang itu. "
+    "Aku hanya bisa membantu dengan pertanyaan seputar SMK Plus Pelita Nusantara.",
+]
 
 
 def walk_strings(obj):
@@ -33,6 +50,7 @@ def walk_strings(obj):
     elif isinstance(obj, list):
         for v in obj:
             yield from walk_strings(v)
+
 
 
 def collect_used_ids(tokenizer, dataset_path):
@@ -50,6 +68,38 @@ def collect_used_ids(tokenizer, dataset_path):
                     ids = tokenizer(text, add_special_tokens=False)["input_ids"]
                     used.update(ids)
     print(f"Scanned {n_lines} dataset lines")
+    return used
+
+
+def collect_rag_index_ids(tokenizer, rag_index_path):
+    """The {context} injected into the runtime prompt comes from here, not
+    from datasets.jsonl -- a separate corpus (scraped school data) that also
+    needs to be tokenizable, or retrieved facts get shredded at inference
+    time even though the dataset-derived vocab looks fine."""
+    used = set()
+    path = Path(rag_index_path)
+    if not path.exists():
+        print(f"WARNING: {rag_index_path} not found, skipping RAG index vocab scan")
+        return used
+    with open(path, "rb") as f:
+        index = pickle.load(f)
+    n_docs = 0
+    for doc in index.get("documents", []):
+        n_docs += 1
+        for text in walk_strings(doc):
+            if text:
+                ids = tokenizer(text, add_special_tokens=False)["input_ids"]
+                used.update(ids)
+    print(f"Scanned {n_docs} RAG index documents")
+    return used
+
+
+def collect_runtime_prompt_ids(tokenizer, strings):
+    used = set()
+    for text in strings:
+        ids = tokenizer(text, add_special_tokens=False)["input_ids"]
+        used.update(ids)
+    print(f"Runtime prompt/fallback strings contributed {len(used)} tokens")
     return used
 
 
@@ -75,6 +125,8 @@ def main():
     model = AutoModelForCausalLM.from_pretrained(MERGED_DIR, torch_dtype=torch.float32)
 
     used_ids = collect_used_ids(tokenizer, DATASET_PATH)
+    used_ids |= collect_rag_index_ids(tokenizer, RAG_INDEX_PATH)
+    used_ids |= collect_runtime_prompt_ids(tokenizer, RUNTIME_PROMPT_STRINGS)
     used_ids |= set(tokenizer.all_special_ids)
     for src in (model.config, model.generation_config):
         for attr in ("bos_token_id", "eos_token_id", "pad_token_id"):

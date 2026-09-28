@@ -1,0 +1,11 @@
+services:
+  assistant:
+    build: .
+    environment:
+      HOST: 0.0.0.0
+      ASSISTANT_API_KEY: change-me-to-a-long-random-string
+    volumes:
+      - ./models:/models:ro
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
