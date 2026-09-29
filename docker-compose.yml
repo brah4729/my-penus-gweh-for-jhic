@@ -1,11 +1,15 @@
 services:
   assistant:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       HOST: 0.0.0.0
-      ASSISTANT_API_KEY: change-me-to-a-long-random-string
+      # Put the real key in a .env next to this file (gitignored):
+      #   ASSISTANT_API_KEY=$(openssl rand -hex 32)
+      ASSISTANT_API_KEY: ${ASSISTANT_API_KEY:?set ASSISTANT_API_KEY in .env}
     volumes:
       - ./models:/models:ro
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"   # loopback only; exposed via tunnel
     restart: unless-stopped

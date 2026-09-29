@@ -30,7 +30,6 @@ hitting this directly, so CORS is not the access-control mechanism in
 either topology -- the X-API-Key check is. CORS stays closed by default.
 
 Run:
-    uv add fastapi uvicorn
     export ASSISTANT_API_KEY="pick-a-long-random-string"
     export HOST=127.0.0.1   # or 0.0.0.0 if Fiber is on a different VPS
     uv run uvicorn api_server:app --host "$HOST" --port 8000
@@ -47,38 +46,20 @@ RHEL VPS notes:
 """
 
 import os
-import pickle
-from pathlib import Path
 
 import requests
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from sklearn.metrics.pairwise import cosine_similarity
 
-INDEX_PATH = Path("data/rag_index.pkl")
+from retrieval import FALLBACK_MESSAGE, Retriever, build_messages
+
 # llama-server stays on localhost -- only this process talks to it directly,
 # in BOTH topologies (even when this service itself is bound to 0.0.0.0 for
 # a separate-VPS Fiber backend, llama-server is never exposed).
 LLAMA_SERVER_URL = "http://localhost:8080/v1/chat/completions"
 API_KEY = os.environ.get("ASSISTANT_API_KEY")
 HOST = os.environ.get("HOST", "127.0.0.1")
-
-TOP_K = 3
-RELEVANCE_THRESHOLD = 0.12
-
-SYSTEM_PROMPT_WITH_CONTEXT = (
-    "Kamu adalah asisten AI untuk SMK Plus Pelita Nusantara. "
-    "Jawab HANYA berdasarkan informasi di bawah ini. "
-    "Jika informasi yang dibutuhkan tidak ada di bawah, katakan dengan jujur "
-    "bahwa kamu tidak memiliki informasi tersebut -- jangan mengarang jawaban.\n\n"
-    "INFORMASI:\n{context}"
-)
-
-FALLBACK_MESSAGE = (
-    "Maaf, aku tidak memiliki informasi tentang itu. "
-    "Aku hanya bisa membantu dengan pertanyaan seputar SMK Plus Pelita Nusantara."
-)
 
 if not API_KEY:
     if HOST not in ("127.0.0.1", "localhost", "::1"):
@@ -110,10 +91,9 @@ if _allowed_origins:
         allow_headers=["X-API-Key", "Content-Type"],
     )
 
-print("Loading RAG index...")
-with open(INDEX_PATH, "rb") as f:
-    _index = pickle.load(f)
-print(f"Loaded {len(_index['documents'])} documents.")
+print("Loading RAG index + embedding model...")
+_retriever = Retriever()
+print(f"Loaded {len(_retriever.documents)} documents ({_retriever.embed_model}).")
 
 
 class ChatRequest(BaseModel):
@@ -123,43 +103,21 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     sources: list[dict]
+    # False = off-topic, answered with the fixed fallback. Log these to see
+    # which real questions the scope gate rejects (tune scope_examples.json).
+    in_scope: bool
     completion_tokens: int | None = None
     prompt_tokens: int | None = None
 
 
-def check_api_key(x_api_key: str | None):   
+def check_api_key(x_api_key: str | None):
     if API_KEY and x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid or missing API key")
 
 
-def retrieve(question: str):
-    vectorizer = _index["vectorizer"]
-    matrix = _index["matrix"]
-    documents = _index["documents"]
-
-    query_vec = vectorizer.transform([question])
-    scores = cosine_similarity(query_vec, matrix)[0]
-
-    ranked = sorted(zip(scores, documents), key=lambda x: x[0], reverse=True)
-    return [
-        {"score": float(score), "source": doc["source"], "text": doc["text"]}
-        for score, doc in ranked[:TOP_K]
-        if score >= RELEVANCE_THRESHOLD
-    ]
-
-
-def ask_model(question: str, retrieved: list):
-    if not retrieved:
-        return FALLBACK_MESSAGE, None, None
-
-    context = "\n".join(f"- {r['text']}" for r in retrieved)
-    system_prompt = SYSTEM_PROMPT_WITH_CONTEXT.format(context=context)
-
+def ask_model(question: str, docs: list[dict]):
     payload = {
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": question},
-        ],
+        "messages": build_messages(question, docs),
         "temperature": 0.2,
         "max_tokens": 500,
         "chat_template_kwargs": {"enable_thinking": False},
@@ -179,11 +137,15 @@ def ask_model(question: str, retrieved: list):
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest, x_api_key: str | None = Header(default=None)):
     check_api_key(x_api_key)
-    retrieved = retrieve(req.question)
-    answer, completion_tokens, prompt_tokens = ask_model(req.question, retrieved)
+    result = _retriever.retrieve(req.question)
+    # Off-topic or no matching data -> fixed reply, the LLM is never called.
+    if result.canned_answer is not None:
+        return ChatResponse(answer=result.canned_answer, sources=result.docs, in_scope=result.in_scope)
+    answer, completion_tokens, prompt_tokens = ask_model(req.question, result.docs)
     return ChatResponse(
         answer=answer,
-        sources=retrieved,
+        sources=result.docs,
+        in_scope=True,
         completion_tokens=completion_tokens,
         prompt_tokens=prompt_tokens,
     )
@@ -191,4 +153,4 @@ def chat(req: ChatRequest, x_api_key: str | None = Header(default=None)):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "documents_loaded": len(_index["documents"])}
+    return {"status": "ok", "documents_loaded": len(_retriever.documents)}

@@ -1,2 +1,16 @@
+.git
 .venv
+__pycache__
+models
 *.gguf
+*.safetensors
+uv.lock
+llama.cpp
+out
+school-assistant-*
+scrape
+# only data/raw is needed (for build_rag_index.py); keep the SFT set out of the image
+data/datasets.jsonl
+data/rag_index.pkl
+.env
+.cache

@@ -16,19 +16,40 @@ Includes both:
     match any single individual document well, so they need their own
     dedicated summary document to retrieve against.
 
+Each document is indexed twice: TF-IDF over its text, and a multilingual
+embedding (see retrieval.py for how they're combined). Aggregate documents
+are embedded by a short "key" description instead of their text -- a long
+list of names washes out the embedding, so "siapa saja guru" used to lose
+to individual teachers; embedding "Daftar semua guru..." fixes that. The
+text shown to the model is still the full list.
+
+The scope-gate examples (scope_examples.json) are embedded here too, so
+edit that file -> rebuild the index.
+
 Run:
     uv run python build_rag_index.py
 """
 
 import json
+import os
 import pickle
 import re
 from pathlib import Path
 
+import numpy as np
+from fastembed import TextEmbedding
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+from retrieval import EMBED_CACHE_DIR, INDEX_PATH
+
 RAW_DIR = Path("data/raw")
-INDEX_PATH = Path("data/rag_index.pkl")
+SCOPE_EXAMPLES_PATH = Path("scope_examples.json")
+# ~1 GB of RAM at runtime. paraphrase-multilingual-MiniLM-L12-v2 is ~0.5 GB
+# but wrongly rejected common questions ("ada ekskul apa aja?") in testing;
+# if you switch, re-tune the thresholds in retrieval.py via eval_retrieval.py.
+EMBED_MODEL = os.environ.get(
+    "EMBED_MODEL", "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+)
 
 # Generic words that appear in nearly every document (mainly the fixed
 # school name) and were causing false-positive matches -- e.g. "Siapa
@@ -88,6 +109,7 @@ def build_documents():
         docs.append({
             "text": f"Daftar guru-guru di SMK Plus Pelita Nusantara: {listing}.",
             "source": "teacher_aggregate",
+            "key": "Daftar semua guru dan pengajar di sekolah.",
         })
 
     eskuls = load("eskul")
@@ -109,6 +131,7 @@ def build_documents():
         docs.append({
             "text": f"Daftar ekstrakurikuler di SMK Plus Pelita Nusantara: {', '.join(eskul_names)}.",
             "source": "eskul_aggregate",
+            "key": "Daftar semua ekstrakurikuler (ekskul) dan kegiatan siswa di sekolah.",
         })
 
     achievements = load("achievement")
@@ -127,6 +150,7 @@ def build_documents():
         docs.append({
             "text": f"Daftar prestasi SMK Plus Pelita Nusantara: {'; '.join(achievement_titles)}.",
             "source": "achievement_aggregate",
+            "key": "Daftar semua prestasi dan juara lomba yang pernah diraih sekolah.",
         })
 
     for n in load("news"):
@@ -169,6 +193,7 @@ def build_documents():
         docs.append({
             "text": f"Daftar mitra industri SMK Plus Pelita Nusantara: {', '.join(industry_names)}.",
             "source": "industry_aggregate",
+            "key": "Daftar semua mitra industri dan perusahaan tempat PKL/prakerin siswa.",
         })
 
     for t in load("testimonial"):
@@ -191,8 +216,26 @@ def main():
     vectorizer = TfidfVectorizer(lowercase=True, ngram_range=(1, 2), stop_words=STOPWORDS)
     matrix = vectorizer.fit_transform(corpus)
 
+    print(f"Embedding with {EMBED_MODEL} (downloads on first run)...")
+    embedder = TextEmbedding(EMBED_MODEL, cache_dir=EMBED_CACHE_DIR)
+
+    def embed(texts):
+        vecs = np.array(list(embedder.embed(texts)))
+        return vecs / np.linalg.norm(vecs, axis=1, keepdims=True)
+
+    with open(SCOPE_EXAMPLES_PATH, encoding="utf-8") as f:
+        scope = json.load(f)
+
     with open(INDEX_PATH, "wb") as f:
-        pickle.dump({"vectorizer": vectorizer, "matrix": matrix, "documents": documents}, f)
+        pickle.dump({
+            "vectorizer": vectorizer,
+            "matrix": matrix,
+            "documents": documents,
+            "embed_model": EMBED_MODEL,
+            "doc_vectors": embed([d.get("key", d["text"]) for d in documents]),
+            "scope_school_vectors": embed(scope["school"]),
+            "scope_off_topic_vectors": embed(scope["off_topic"]),
+        }, f)
 
     print(f"Saved index -> {INDEX_PATH}")
 

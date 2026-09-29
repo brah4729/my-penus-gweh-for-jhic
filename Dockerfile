@@ -8,8 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certifi
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app/api
-COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev --python 3.11
+# No uv.lock / --frozen: resolve fresh from the slim pyproject.toml (see AGENTS.md)
+COPY pyproject.toml ./
+RUN uv sync --no-dev --python 3.11
 COPY . .
 RUN uv run python build_rag_index.py
 

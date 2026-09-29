@@ -31,3 +31,6 @@ Thumbs.db
 
 # Secrets
 .env
+
+# fastembed model cache (re-downloaded by build_rag_index.py)
+.cache/

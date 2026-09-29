@@ -19,24 +19,22 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from retrieval import FALLBACK_MESSAGE, NO_DATA_MESSAGE, SYSTEM_PROMPT_WITH_CONTEXT
+
 MERGED_DIR = "school-assistant-merged"
 OUT_DIR = "school-assistant-pruned"
 DATASET_PATH = "data/datasets.jsonl"
 RAG_INDEX_PATH = "data/rag_index.pkl"
 
-# These are hardcoded in chat_with_rag.py / api_server.py -- NOT part of
+# These live in retrieval.py -- NOT part of
 # datasets.jsonl at all. Missing these was the actual bug that broke the
 # first pruning attempt: the model's own instruction prompt got shredded
 # into byte-fallback fragments it had never seen, so it stopped recognizing
 # it as an instruction and just echoed the question back instead.
 RUNTIME_PROMPT_STRINGS = [
-    "Kamu adalah asisten AI untuk SMK Plus Pelita Nusantara. "
-    "Jawab HANYA berdasarkan informasi di bawah ini. "
-    "Jika informasi yang dibutuhkan tidak ada di bawah, katakan dengan jujur "
-    "bahwa kamu tidak memiliki informasi tersebut -- jangan mengarang jawaban.\n\n"
-    "INFORMASI:\n",
-    "Maaf, aku tidak memiliki informasi tentang itu. "
-    "Aku hanya bisa membantu dengan pertanyaan seputar SMK Plus Pelita Nusantara.",
+    SYSTEM_PROMPT_WITH_CONTEXT.split("{context}")[0],
+    FALLBACK_MESSAGE,  # never passed through the model, but harmless to keep
+    NO_DATA_MESSAGE,
 ]
 
 
