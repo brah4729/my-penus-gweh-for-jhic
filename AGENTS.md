@@ -128,3 +128,136 @@ specific file. Treat `data/raw/*.json` the same way.
 - Keep `chat_with_rag.py` and `api_server.py`'s retrieval logic
   (`retrieve()`, threshold, top-k) in sync — they're currently duplicated,
   not shared via an import. If you refactor one, check the other.
+
+## Deployment (live, on a VPS via aaPanel + Docker Compose)
+
+Deployed as a **single Docker image** combining `llama-server` and the
+FastAPI RAG service — not two separate containers/images. VPS is managed
+through aaPanel; the actual container is run from the terminal
+(`/www/my-penus-gweh/`), not through aaPanel's own Docker Compose UI,
+since that UI has no path field and only takes pasted compose content.
+
+### Layout on the VPS
+```
+/www/my-penus-gweh/
+  Dockerfile               # capital D — Linux is case-sensitive
+  docker-compose.yml
+  start.sh                 # must be LF line endings, not CRLF
+  .dockerignore
+  pyproject.toml           # slim: fastapi, uvicorn, requests, scikit-learn only
+  api_server.py
+  build_rag_index.py
+  data/raw/
+  models/school-assistant-q4_k_m-fixed.gguf
+```
+No separate `/api` subfolder — `WORKDIR /app/api` inside the Dockerfile
+creates that path *inside the container*; the server-side folder itself
+stays flat.
+
+### Key design decisions
+- **One container, not two.** Base image is
+  `ghcr.io/ggml-org/llama.cpp:server` (Ubuntu-based). `start.sh` launches
+  `llama-server` on `127.0.0.1:8080` (never exposed outside the
+  container), waits on `/health`, then runs
+  `uvicorn api_server:app --host 0.0.0.0 --port 8000`. This mirrors the
+  same-VPS topology `api_server.py`'s own docstring describes, just with
+  both processes inside one container instead of one box.
+- **`export LD_LIBRARY_PATH=/app` is required** in `start.sh`, before the
+  `llama-server` call — otherwise it fails silently in the background
+  with `libllama-server-impl.so: cannot open shared object file`, and
+  since it's backgrounded (`&`) that error doesn't surface as a build
+  failure, only as an unhealthy container.
+- **`start.sh` checks if llama-server's PID is still alive** in the
+  `/health` polling loop (`kill -0 $LLAMA_PID`) and exits immediately if
+  not, rather than polling forever. Without this, a model-load failure
+  hangs the container indefinitely instead of failing fast.
+- **`-t N` (thread cap)** is passed to `llama-server` in `start.sh` to
+  stop a single request from pinning ~8 CPU cores (observed ~790% CPU per
+  `docker stats` on one request without it). Must go *before* the `&`,
+  not after — `... --parallel 2 -t 4 &`, not `... --parallel 2 & -t 4`
+  (the latter runs `-t` as an unrelated shell command after backgrounding
+  llama-server, hits `set -e`, and kills the script).
+- **`pyproject.toml` is split by dependency group** — this only became
+  necessary once building on the VPS, not during local dev.  Base
+  (default) deps are API-only: `fastapi`, `uvicorn`, `requests`,
+  `scikit-learn`. Training deps (`torch`, `transformers`, `peft`, `trl`,
+  `unsloth`, `bitsandbytes`, `wandb`, `accelerate`, `datasets`,
+  `huggingface-hub`, `numpy`/`pandas`/`matplotlib`) live under
+  `[dependency-groups] train`. Scraping deps (`beautifulsoup4`, `scrapy`)
+  live under `scrape`. The Dockerfile runs `uv sync --no-dev`, which only
+  installs the base group — without this split the image pulls in ~5-8GB
+  of CUDA/torch wheels it never uses. **Locally**, run
+  `uv sync --all-groups` (or `--group train --group scrape` as needed)
+  or `model.py`/`scrape/scrape.py` will fail with missing imports.
+- **No `--frozen` in the Dockerfile**, and `uv.lock` is excluded via
+  `.dockerignore` — uv resolves fresh from `pyproject.toml` on every
+  build instead of trusting a lockfile. Trade-off: dependency versions
+  can drift between rebuilds months apart. If reproducibility becomes
+  more important than convenience, regenerate `uv.lock` locally
+  (`uv lock`) against the slim `pyproject.toml`, upload it, and restore
+  `--frozen`.
+- **The `.gguf` model is a mounted volume, not baked into the image** —
+  `models/` is excluded via `.dockerignore` and mounted read-only in
+  `docker-compose.yml`. Swapping the model file only needs
+  `docker compose restart` (no rebuild); changing the *filename* needs an
+  edit to the `-m` path in `start.sh` **and** a rebuild, since `start.sh`
+  itself is baked into the image.
+- **`.dockerignore` must exclude**: `models`, `*.gguf`, `uv.lock`,
+  `.venv`, `llama.cpp`, `school-assistant-merged` (and other
+  `school-assistant-*` dirs/gguf variants) — otherwise multi-hundred-MB
+  files get shipped into the build context on every single build.
+
+### API contract (as actually deployed)
+`POST /chat` body is `{"question": "..."}` — **not** `{"message": ...}`.
+Auth via `X-API-Key` header checked against `ASSISTANT_API_KEY`.
+`GET /health` is unauthenticated, returns `{"status": "ok",
+"documents_loaded": <n>}` — fine to leave unauthenticated since it only
+leaks a document count, but it's still reachable by anyone who can reach
+the port, which is one more reason to keep that port firewalled/tunneled
+rather than open to everyone.
+
+### Compose file (as deployed)
+```yaml
+services:
+  assistant:
+    build:
+      context: /www/my-penus-gweh
+      dockerfile: Dockerfile
+    environment:
+      HOST: 0.0.0.0
+      ASSISTANT_API_KEY: <random, via `openssl rand -hex 32` — rotate if
+                          ever pasted anywhere, e.g. into a chat log>
+    volumes:
+      - /www/my-penus-gweh/models:/models:ro
+    ports:
+      - "127.0.0.1:8000:8000"   # bound to loopback only
+    restart: unless-stopped
+```
+Exposure is via a tunnel (e.g. Cloudflare Tunnel) pointed at
+`http://localhost:8000` on the VPS, rather than opening port 8000 in any
+firewall — the port binds to `127.0.0.1` specifically so nothing external
+can reach it directly even if the tunnel is misconfigured.
+
+### Rebuild vs. restart — don't confuse these
+- **Rebuild required** (`docker compose up -d --build`) for changes to:
+  `api_server.py`, `start.sh`, `build_rag_index.py`, `pyproject.toml`,
+  anything under `data/raw/`. All of these get `COPY`'d into the image at
+  build time; a plain restart reuses the old image and silently ignores
+  edited files on disk.
+- **Restart only** (`docker compose up -d`, no `--build`) suffices for:
+  changes to `docker-compose.yml` itself (env vars, ports, volumes), or
+  swapping the `.gguf` file (same filename) since `models/` is a runtime
+  mount.
+- Only one Compose project should exist for this app
+  (`my-penus-gweh`, managed from `/www/my-penus-gweh` via terminal). An
+  earlier aaPanel-UI-created project (`school-assistant`, built from an
+  older, since-abandoned two-container design) briefly coexisted and
+  fought over port 8000 — it was deleted. If port 8000 conflicts resurface,
+  check `docker ps` / aaPanel's Docker Compose list for a duplicate
+  project first.
+
+### Still open (unchanged by deployment — see "Known gaps" above)
+Tutoring/refusal dataset, aggregate-ranking bug, concurrent benchmark,
+post-quantization behavior check — none of this was addressed by getting
+the container running; deployment only covers serving the current
+(imperfect) model + RAG behavior.
