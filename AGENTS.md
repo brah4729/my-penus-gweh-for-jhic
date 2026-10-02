@@ -306,6 +306,9 @@ stays flat.
   also excludes `data/datasets.jsonl` (sensitive, and unused at serve
   time — only `data/raw/` is needed to build the RAG index) and `.env`.
 
+### Caller: the Go API (2026-09-30)
+The only client is the Go Fiber API in `../backend-ayamnya-hanan` (`handlers/chat_handler.go`), which runs on a different VPS with the website frontend. It calls this service through the tunnel: `ASSISTANT_API_URL=<tunnel URL>`, header `X-API-Key: $ASSISTANT_API_KEY`, body `{"question"}` (≤ 500 chars, enforced there). Keep this contract stable; changing it needs a matching change in that handler and in root `../AGENTS.md` §2.3. The browser never calls this service directly, so `ALLOWED_ORIGINS` stays empty in production.
+
 ### API contract (as actually deployed)
 `POST /chat` body is `{"question": "..."}` — **not** `{"message": ...}`.
 Auth via `X-API-Key` header checked against `ASSISTANT_API_KEY`.
