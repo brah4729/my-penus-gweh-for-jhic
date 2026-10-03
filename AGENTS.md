@@ -1,5 +1,7 @@
 # AGENTS.md
 
+> Open issues and fix plan: root `../issue.md`. If you fix an issue listed there, record it in that file (root `../AGENTS.md` §6 rule 7).
+
 Guidance for AI coding agents (Claude Code, etc.) working in this repo.
 
 ## What this project is
